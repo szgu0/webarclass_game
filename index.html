@@ -83,7 +83,7 @@
             var data = this.data;
             var el = this.el;
             console.log('addListner', data, el);
-            el.addEventListener('click', function () {
+            el.addEventListener('mouseenter', function () {
                 console.log('onclick');
                 if (data.level === 0) {
                     let password = prompt('鎖上寫著"傾國傾城 魚目混珠 一字千金 一文不值"四句成語...\n(請輸入四位數密碼)', '');
