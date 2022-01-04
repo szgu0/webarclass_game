@@ -3,11 +3,13 @@
 <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
 <script src="https://raw.githack.com/jeromeetienne/AR.js/2.0.5/aframe/build/aframe-ar.js"></script>
 <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
+
 <head>
     <meta charset="UTF-8">
-    
+
     <style>
-        html, body{
+        html,
+        body {
             width: 100%;
             height: 100%;
         }
@@ -30,9 +32,9 @@
             font-size: 1.25em;
             color: white;
         }
-        
-        
-        .overLay{
+
+
+        .overLay {
             display: none;
             width: 100vw;
             height: 100vh;
@@ -42,154 +44,108 @@
             background: black;
             z-index: 11;
         }
-        
-        .overLay > .text{
+
+        .overLay>.text {
             text-align: center;
             font-size: 40px;
             color: white;
         }
-        
-        
     </style>
 </head>
 
 <script>
-let levels = [];
-let overLay, overText;
-window.onload = function() {
-    levels[0] = document.getElementById('level0');
-    levels[1] = document.getElementById('level1');
-    overLay = document.getElementById('overLay');
-    overText = document.getElementById('overText');
-}
-function showText(text, delay) {
-    overLay.style.display = 'block';
-    overText.innerText = text;
-    setTimeout(()=>{
-        overLay.style.display = 'none';
-    }, delay);    
-}
-let levelsText = [];
-levelsText[0] = `一道聖光從天而降
+    let levels = [];
+    let overLay, overText;
+    window.onload = function () {
+        levels[0] = document.getElementById('level0');
+        levels[1] = document.getElementById('level1');
+        overLay = document.getElementById('overLay');
+        overText = document.getElementById('overText');
+    }
+    function showText(text, delay) {
+        overLay.style.display = 'block';
+        overText.innerText = text;
+        setTimeout(() => {
+            overLay.style.display = 'none';
+        }, delay);
+    }
+    let levelsText = [];
+    levelsText[0] = `一道聖光從天而降
 你破解了成語謎題
 現在找尋空間中的元素週期表
 `;
 
-AFRAME.registerComponent('clickhandler', {
-    schema: {
-        level: {default: -1}
-    },
-    init: function () {
-        var data = this.data;
-        var el = this.el;
-        console.log('addListner', data, el);    
-        el.addEventListener('click', function () {
-            console.log('onclick');
-            if (data.level === 0) {
-                let password = prompt('鎖上寫著"傾國傾城 魚目混珠 一字千金 一文不值"四句成語...\n(請輸入四位數密碼)', '');
-                if (password === '9528') {
-                    alert('你答對了');
-                    levels[data.level].remove();
-                    showText(levelsText[data.level], 10000);
+    AFRAME.registerComponent('clickhandler', {
+        schema: {
+            level: { default: -1 }
+        },
+        init: function () {
+            var data = this.data;
+            var el = this.el;
+            console.log('addListner', data, el);
+            el.addEventListener('click', function () {
+                console.log('onclick');
+                if (data.level === 0) {
+                    let password = prompt('鎖上寫著"傾國傾城 魚目混珠 一字千金 一文不值"四句成語...\n(請輸入四位數密碼)', '');
+                    if (password === '9528') {
+                        alert('你答對了');
+                        levels[data.level].remove();
+                        showText(levelsText[data.level], 10000);
+                    }
+                    else if (password !== null)
+                        alert('你輸入了: ' + password + '，但遺憾的是，這不是答案');
                 }
-                else if (password !== null)
-                    alert('你輸入了: ' + password + '，但遺憾的是，這不是答案');
-            }
-        });        
-    }
-});
+            });
+        }
+    });
 </script>
 
 <body style='margin : 0px; overflow: hidden;'>
     <div class="overLay" id="overLay">
-       <div class="text" id="overText"></div>
+        <div class="text" id="overText"></div>
     </div>
 
-    <a-scene
-        arjs
-        embedded
-        renderer="logarithmicDepthBuffer: true;"
-        vr-mode-ui="enabled: false"
-        gesture-detector
-        id="scene"
-    >
+    <a-scene arjs embedded renderer="logarithmicDepthBuffer: true;" vr-mode-ui="enabled: false" gesture-detector
+        id="scene">
 
         <!-- 第一關 猜成語 -->
         <a-marker preset='kanji' id="level0">
-            <a-image 
-                src="assets/Lantern_Riddles.png"
-                rotation="-90 0 0"
-                scale="5 2 1"
-                clickhandler="level:0"
-            ></a-image>
-            <a-entity
-                gltf-model="assets/lock.gltf"
-                position="0 0 -1.5"
-                rotation="-90 0 0"
-                scale="0.001 0.001 0.001"
-                clickhandler="level:0"
-            ></a-entity>
+            <a-image src="assets/Lantern_Riddles.png" rotation="-90 0 0" scale="5 2 1" clickhandler="level:0"></a-image>
+            <a-entity gltf-model="assets/lock.gltf" position="0 0 -1.5" rotation="-90 0 0" scale="0.001 0.001 0.001"
+                clickhandler="level:0"></a-entity>
         </a-marker>
-        
+
         <!-- 第二關 煉金術 -->
-        <a-marker
-            type='pattern'
-            url='markers/Yin_and_Yang.patt'
-            id="level1"
-        >
-            <a-text
-                value="17 8 6 19"
-                rotation="-90 0 0"
-                align="center"
-                scale="1 1 1"
-                clickhandler="level:1"
-            ></a-text>
+        <a-marker type='pattern' url='markers/Yin_and_Yang.patt' id="level1">
+            <a-text value="17 8 6 19" rotation="-90 0 0" align="center" scale="1 1 1" clickhandler="level:1"></a-text>
         </a-marker>
-        
+
         <!-- 第三關 風水小達人-->
-        <a-marker
-            preset='hero'
-            id="level2"
-        >
-            <a-image 
-                src="assets/reel.png"
-                rotation="-90 0 0"
-                scale="5 3 1"
-                clickhandler="level:2"
-            ></a-image>
+        <a-marker preset='hero' id="level2">
+            <a-image src="assets/reel.png" rotation="-90 0 0" scale="5 3 1" clickhandler="level:2"></a-image>
         </a-marker>
 
         <!-- 通關-->
-        <a-marker
-            type='pattern'
-            url='markers/treasurechest.patt'
-            id="level3"
-        >
-            <a-text
-            value="WIN!!!!!"
-            rotation="-90 0 0"
-            align="center"
-            scale="1 1 1"
-            clickhandler="level:1"
-        ></a-text>
+        <a-marker type='pattern' url='markers/treasure-chest.patt' id="level3">
+            <a-text value="WIN!!!!!" rotation="-90 0 0" align="center" scale="1 1 1" clickhandler="level:1"></a-text>
         </a-marker>
-            
+
         <!-- <a-marker -->
-          <!-- preset="kanji" -->
-          <!-- raycaster="objects: .clickable" -->
-          <!-- emitevents="true" -->
-          <!-- cursor="fuse: false; rayOrigin: mouse;" -->
-          <!-- id="markerA" -->
+        <!-- preset="kanji" -->
+        <!-- raycaster="objects: .clickable" -->
+        <!-- emitevents="true" -->
+        <!-- cursor="fuse: false; rayOrigin: mouse;" -->
+        <!-- id="markerA" -->
         <!-- > -->
-          <!-- <a-entity -->
-            <!-- id="bowser-model" -->
-            <!-- gltf-model="#bowser" -->
-            <!-- position="0 0 0" -->
-            <!-- scale="0.05 0.05 0.05" -->
-            <!-- class="clickable" -->
-            <!-- gesture-handler="minScale: 0.05; maxScale: 8" -->
-          <!-- > -->
-          <!-- </a-entity> -->
+        <!-- <a-entity -->
+        <!-- id="bowser-model" -->
+        <!-- gltf-model="#bowser" -->
+        <!-- position="0 0 0" -->
+        <!-- scale="0.05 0.05 0.05" -->
+        <!-- class="clickable" -->
+        <!-- gesture-handler="minScale: 0.05; maxScale: 8" -->
+        <!-- > -->
+        <!-- </a-entity> -->
         <!-- </a-marker> -->
         <a-entity camera cursor="rayOrigin:mouse"></a-entity>
     </a-scene>
