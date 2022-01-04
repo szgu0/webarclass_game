@@ -162,7 +162,21 @@ AFRAME.registerComponent('clickhandler', {
                 clickhandler="level:2"
             ></a-image>
         </a-marker>
-        
+
+        <!-- 通關-->
+        <a-marker
+            type='pattern'
+            url='markers/treasurechest.patt'
+            id="level3"
+        >
+            <a-text
+            value="WIN!!!!!"
+            rotation="-90 0 0"
+            align="center"
+            scale="1 1 1"
+            clickhandler="level:1"
+        ></a-text>
+        </a-marker>
             
         <!-- <a-marker -->
           <!-- preset="kanji" -->
